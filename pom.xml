@@ -1,0 +1,33 @@
+def readxml;
+
+node
+
+{
+
+ ​​ ​​ ​​​​ stage('checking out from scm')
+
+ ​​ ​​ ​​​​ {
+
+ ​​ ​​ ​​ ​​ ​​ ​​ ​​​​ checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url:​​ 'https://github.com/Rekhach9618/Rekha.git']]])
+
+ ​​ ​​ ​​​​ }
+
+ ​​ ​​ ​​​​ 
+
+ ​​ ​​ ​​​​ stage('reading xml')
+
+ ​​ ​​ ​​​​ {
+
+ ​​ ​​ ​​ ​​ ​​ ​​ ​​​​ readxml = readMavenPom file: '';  
+
+ ​​ ​​ ​​ ​​ ​​ ​​ ​​​​ def name_var = readxml.name;
+
+ ​​ ​​ ​​ ​​ ​​ ​​ ​​​​ echo "The value of name is: ${name_var}"
+
+ ​​ ​​ ​​ ​​ ​​ ​​ ​​​​ echo "The​​ value of description is: ${readxml.description}"
+
+ ​​ ​​ ​​ ​​ ​​ ​​ ​​​​ echo "The version is: ${readxml.parent.version}"
+
+ ​​ ​​ ​​​​ }
+
+}
