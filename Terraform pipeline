@@ -3,23 +3,22 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Use bat for Windows
-                bat 'git clone https://github.com/Rekhach9618/Rekha.git'
+                checkout scm // This will fetch the code from the specified repository
             }
         }
         stage('Terraform Init') {
             steps {
-                bat 'terraform init'
+                bat 'terraform init' // This will initialize Terraform in the checked-out directory
             }
         }
         stage('Terraform Plan') {
             steps {
-                bat 'terraform plan'
+                bat 'terraform plan' // This will generate an execution plan
             }
         }
         stage('Terraform Apply') {
             steps {
-                bat 'terraform apply -auto-approve'
+                bat 'terraform apply -auto-approve' // This will apply the planned changes
             }
         }
     }
