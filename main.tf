@@ -4,48 +4,44 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                script {
-                    git 'https://github.com/Rekhach9618/Rekha.git'
+                git 'https://github.com/Rekhach9618/Rekha.git'
+            }
+        }
+
+        stage('Terraform Init') {
+            steps {
+                dir('terraform') { // Adjust this if your .tf files are in a different directory
+                    sh 'terraform init'
                 }
             }
         }
-        stage('Init') {
+
+        stage('Terraform Plan') {
             steps {
-                script {
-                    bat 'terraform init'
+                dir('terraform') { // Same adjustment here
+                    sh 'terraform plan -out=tfplan'
                 }
             }
         }
-        stage('Plan') {
+
+        stage('Terraform Apply') {
             steps {
-                script {
-                    bat 'terraform plan -out=tfplan'
-                }
-            }
-        }
-        stage('Apply') {
-            steps {
-                script {
-                    input message: 'Approve Terraform Apply?'
-                    bat 'terraform apply tfplan'
-                }
-            }
-        }
-        stage('Clean Up') {
-            steps {
-                script {
-                    bat 'del tfplan'
+                dir('terraform') { // Same adjustment here
+                    sh 'terraform apply -auto-approve tfplan'
                 }
             }
         }
     }
 
     post {
+        always {
+            cleanWs()
+        }
         success {
-            echo 'Terraform applied successfully!'
+            echo 'Infrastructure provisioned successfully!'
         }
         failure {
-            echo 'Infrastructure provisioning failed!'
+            echo 'Infrastructure provisioning failed.'
         }
     }
 }
