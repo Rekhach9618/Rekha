@@ -4,7 +4,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Use bat for Windows
-                bat 'git clone https://github.com/Rekhach9618/rekhasri1234.git'
+                bat 'git clone https://github.com/Rekhach9618/Rekha.git'
             }
         }
         stage('Terraform Init') {
