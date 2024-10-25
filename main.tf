@@ -5,7 +5,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 script {
-                    git 'https://github.com/Rekhach9618/rekhasri1234.git'
+                    git 'https://github.com/Rekhach9618/Rekha.git'
                 }
             }
         }
