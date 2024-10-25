@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                checkout scm // This will fetch the code from the specified repository
+                https://github.com/Rekhach9618/Rekha.git
             }
         }
         stage('Terraform Init') {
