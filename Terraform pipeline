@@ -1,25 +1,51 @@
 pipeline {
     agent any
+
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/Rekhach9618/Rekha.git'
+                script {
+                    git 'https://github.com/Rekhach9618/rekhasri1234.git'
+                }
             }
         }
-        stage('Terraform Init') {
+        stage('Init') {
             steps {
-                sh 'terraform init'
+                script {
+                    bat 'terraform init'
+                }
             }
         }
-        stage('Terraform Plan') {
+        stage('Plan') {
             steps {
-                sh 'terraform plan'
+                script {
+                    bat 'terraform plan -out=tfplan'
+                }
             }
         }
-        stage('Terraform Apply') {
+        stage('Apply') {
             steps {
-                sh 'terraform apply -auto-approve'
+                script {
+                    input message: 'Approve Terraform Apply?'
+                    bat 'terraform apply tfplan'
+                }
             }
+        }
+        stage('Clean Up') {
+            steps {
+                script {
+                    bat 'del tfplan'
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Terraform applied successfully!'
+        }
+        failure {
+            echo 'Infrastructure provisioning failed!'
         }
     }
 }
