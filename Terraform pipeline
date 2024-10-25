@@ -1,0 +1,34 @@
+pipeline {
+    agent any
+    stages {
+        stage('Checkout') {
+            steps {
+                // Use bat for Windows
+                bat 'git clone https://github.com/Rekhach9618/rekhasri1234.git'
+            }
+        }
+        stage('Terraform Init') {
+            steps {
+                bat 'terraform init'
+            }
+        }
+        stage('Terraform Plan') {
+            steps {
+                bat 'terraform plan'
+            }
+        }
+        stage('Terraform Apply') {
+            steps {
+                bat 'terraform apply -auto-approve'
+            }
+        }
+    }
+    post {
+        always {
+            echo 'Infrastructure provisioning finished.'
+        }
+        failure {
+            echo 'Infrastructure provisioning failed!'
+        }
+    }
+}
